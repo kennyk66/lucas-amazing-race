@@ -57,7 +57,7 @@ for(let i=0;i<6;i++){const car={mesh:carModel(colors[i]),x:0,z:0,angle:0,speed:0
 let mode='Race',cameraMode=0,hitCooldown=0,noticeTime=0;
 const hudSpeed=document.getElementById('speed'),hudInfo=document.getElementById('info'),hudPlace=document.getElementById('place'),message=document.getElementById('msg');
 function reset(type){mode=type;player.x=0;player.z=midB;player.angle=Math.PI/2;player.speed=0;player.health=100;player.laps=1;player.progress=0;player.dead=false;
-for(let i=0;i<rivals.length;i++){let a=Math.PI/2+i*.18,r=rivals[i];r.t=a;r.x=midA*Math.cos(a);r.z=midB*Math.sin(a);r.angle=Math.atan2(-midB*Math.sin(a),midA*Math.cos(a));r.health=100;r.speed=15;r.laps=1;}show(type==='Race'?'RACE START!':'DEMOLITION DERBY!',2);}
+for(let i=0;i<rivals.length;i++){let a=Math.PI/2+.35+i*.2,r=rivals[i];r.t=a;r.x=midA*Math.cos(a);r.z=midB*Math.sin(a);r.angle=Math.atan2(midA*Math.sin(a),-midB*Math.cos(a));r.health=100;r.speed=15;r.laps=1;}show(type==='Race'?'RACE START!':'DEMOLITION DERBY!',2);}
 function show(text,s){message.textContent=text;noticeTime=s;}
 function roadPos(x,z){let rr=Math.sqrt(x*x/(midA*midA)+z*z/(midB*midB));return rr>.78&&rr<1.25;}
 function collide(a,b,force=1){let dx=a.x-b.x,dz=a.z-b.z,d=Math.hypot(dx,dz);if(d<3.2&&d>.01){let push=(3.2-d)*.5;a.x+=dx/d*push;b.x-=dx/d*push;a.z+=dz/d*push;b.z-=dz/d*push;
@@ -75,7 +75,7 @@ let a=Math.atan2(player.z/midB,player.x/midA);if(a<0)a+=Math.PI*2;let p=(a/(Math
 if(mode==='Race'&&player.laps>3){show('FINISH! Press R to race again',1000);player.dead=true;}
 if(player.health<=0){player.dead=true;show('WRECKED! Press R to restart',1000);}}
 for(let i=0;i<rivals.length;i++){let r=rivals[i];if(r.health<=0)continue;
-if(mode==='Race'){r.t+=dt*(.21+(i%3)*.015);r.x=midA*Math.cos(r.t)+Math.cos(r.t)*((i%3)-1)*3;r.z=midB*Math.sin(r.t)+Math.sin(r.t)*((i%3)-1)*2;r.angle=Math.atan2(midB*Math.sin(r.t),midA*Math.cos(r.t))+Math.PI/2;r.speed=16+i*.7;}
+if(mode==='Race'){r.t+=dt*(.21+(i%3)*.015);r.x=midA*Math.cos(r.t)+Math.cos(r.t)*((i%3)-1)*3;r.z=midB*Math.sin(r.t)+Math.sin(r.t)*((i%3)-1)*2;r.angle=Math.atan2(midA*Math.sin(r.t),-midB*Math.cos(r.t));r.speed=16+i*.7;}
 else{let angle=Math.atan2(player.z-r.z,player.x-r.x);r.angle=-angle-Math.PI/2;r.x+=Math.cos(angle)*11*dt;r.z+=Math.sin(angle)*11*dt;r.speed=11;}
 collide(player,r);r.mesh.position.set(r.x,0,r.z);r.mesh.rotation.y=r.angle;}
 player.mesh.position.set(player.x,0,player.z);player.mesh.rotation.y=player.angle;
